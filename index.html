@@ -9,28 +9,33 @@
 body {
     text-align: center;
     font-family: 'Arial', sans-serif;
-    background-color: #ffb6d9; /* Початковий колір (рожевий) */
+    background-color: #ffb6d9;
     margin: 0;
     padding-top: 20px;
     overflow: hidden; 
-    transition: background-color 1s; /* Для плавного переходу */
+    transition: background-color 1s;
     height: 100vh;
     width: 100vw;
 }
 
-/* --- АНІМАЦІЯ ФОНУ (Пульсація) --- */
+/* АНІМАЦІЯ ФОНУ */
 @keyframes pulseLove {
     0% { background-color: white; }
-    50% { background-color: #ffcce6; } /* Ніжно-рожевий/червонуватий */
+    50% { background-color: #ffcce6; }
     100% { background-color: white; }
 }
 
-/* Цей клас ми додамо через JS після натискання "Так" */
 .love-mode {
-    animation: pulseLove 4s ease-in-out infinite; /* 4 секунди на один "удар" */
+    animation: pulseLove 4s ease-in-out infinite;
 }
 
 /* Кнопки */
+#buttons {
+    position: relative;
+    margin-top: 20px;
+    height: 100px; /* Резервуємо місце для кнопок */
+}
+
 button {
     font-size: 20px;
     padding: 10px 20px;
@@ -38,14 +43,23 @@ button {
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    transition: transform 0.2s;
-    position: relative;
-    z-index: 100;
+    transition: transform 0.2s, z-index 0.1s;
     -webkit-tap-highlight-color: transparent;
 }
 
-#yesBtn { background-color: #ff4d6d; color: white; }
-#noBtn { background-color: gray; color: white; }
+#yesBtn { 
+    background-color: #ff4d6d; 
+    color: white; 
+    position: relative;
+    z-index: 10; /* Початковий шар */
+}
+
+#noBtn { 
+    background-color: gray; 
+    color: white; 
+    position: relative;
+    z-index: 5; /* Завжди нижче кнопки "Так" при збільшенні */
+}
 
 #minion {
     width: 250px;
@@ -74,7 +88,7 @@ button {
     width: 100%;
 }
 
-/* Фінальний контейнер з 3D перспективою */
+/* Фінальний контейнер */
 #finalContainer {
     display: none;
     position: absolute;
@@ -86,7 +100,7 @@ button {
     z-index: 5;
 }
 
-/* --- СТИЛІ ДЛЯ ВСІХ КОТІВ --- */
+/* КОТИКИ */
 .cat-img {
     position: absolute;
     object-fit: contain;
@@ -95,88 +109,26 @@ button {
     pointer-events: none;
 }
 
-/* --- РОЗТАШУВАННЯ --- */
+#cat4 { left: 50%; top: 12%; transform: translateX(-50%); width: 130px; animation: floatAndSpin 4s ease-in-out infinite; }
+#catMain { left: 50%; top: 55%; width: 180px; transform: translate(-50%, -50%); animation: spin360 5s linear infinite; }
+#flower1 { left: 5%; top: 45%; width: 100px; animation: flipY 4s ease-in-out infinite; }
+#flower2 { right: 5%; top: 30%; width: 90px; animation: flipX 4s ease-in-out infinite; }
+#cat2 { left: 5%; bottom: 12%; width: 100px; animation: flipDiagonal 5s ease-in-out infinite; }
+#cat3 { right: 5%; bottom: 12%; width: 100px; animation: flipY 6s ease-in-out infinite reverse; }
 
-#cat4 {
-    left: 50%;
-    top: 12%;
-    transform: translateX(-50%);
-    width: 130px;
-    animation: floatAndSpin 4s ease-in-out infinite;
-}
-
-#catMain {
-    left: 50%;
-    top: 55%;
-    width: 180px;
-    transform: translate(-50%, -50%);
-    animation: spin360 5s linear infinite;
-}
-
-#flower1 {
-    left: 5%;
-    top: 45%;
-    width: 100px;
-    animation: flipY 4s ease-in-out infinite;
-}
-
-#flower2 {
-    right: 5%;
-    top: 30%;
-    width: 90px;
-    animation: flipX 4s ease-in-out infinite;
-}
-
-#cat2 {
-    left: 5%;
-    bottom: 12%;
-    width: 100px;
-    animation: flipDiagonal 5s ease-in-out infinite;
-}
-
-#cat3 {
-    right: 5%;
-    bottom: 12%;
-    width: 100px;
-    animation: flipY 6s ease-in-out infinite reverse;
-}
-
-/* --- АНІМАЦІЇ --- */
-@keyframes spin360 {
-    from { transform: translate(-50%, -50%) rotate(0deg); }
-    to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-@keyframes flipY {
-    0% { transform: rotateY(0deg); }
-    100% { transform: rotateY(360deg); }
-}
-
-@keyframes flipX {
-    0% { transform: rotateX(0deg); }
-    100% { transform: rotateX(360deg); }
-}
-
-@keyframes flipDiagonal {
-    0% { transform: rotate3d(1, 1, 0, 0deg); }
-    100% { transform: rotate3d(1, 1, 0, 360deg); }
-}
-
+/* АНІМАЦІЇ */
+@keyframes spin360 { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+@keyframes flipY { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(360deg); } }
+@keyframes flipX { 0% { transform: rotateX(0deg); } 100% { transform: rotateX(360deg); } }
+@keyframes flipDiagonal { 0% { transform: rotate3d(1, 1, 0, 0deg); } 100% { transform: rotate3d(1, 1, 0, 360deg); } }
 @keyframes floatAndSpin {
     0% { transform: translateX(-50%) translateY(0) rotateY(0deg); }
     50% { transform: translateX(-50%) translateY(-15px) rotateY(180deg); }
     100% { transform: translateX(-50%) translateY(0) rotateY(360deg); }
 }
 
-/* --- ФЕЄРВЕРКИ --- */
-.firework {
-    position: absolute;
-    width: 150px;
-    pointer-events: none;
-    z-index: 1;
-    opacity: 0.6;
-}
-
+/* ФЕЄРВЕРКИ */
+.firework { position: absolute; width: 150px; pointer-events: none; z-index: 1; opacity: 0.6; }
 #fw1 { top: 0; left: 0; }
 #fw2 { top: 0; right: 0; }
 #fw3 { bottom: 20%; left: 50%; transform: translateX(-50%); }
@@ -184,25 +136,11 @@ button {
 #fw5 { bottom: 0; right: 0; width: 120px; }
 #fw6 { top: 20%; left: 50%; transform: translateX(-50%); width: 200px; opacity: 0.4; }
 
-/* --- КОНФЕТІ --- */
-.confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    top: 0;
-    z-index: 200;
-    animation: fall 3s linear forwards;
-    pointer-events: none;
-}
+/* КОНФЕТІ */
+.confetti { position: fixed; width: 10px; height: 10px; top: 0; z-index: 200; animation: fall 3s linear forwards; pointer-events: none; }
+@keyframes fall { to { transform: translateY(100vh) rotate(720deg); opacity: 0; } }
 
-@keyframes fall {
-    to {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
-}
-
-/* --- ПІДПИС --- */
+/* ПІДПИС */
 #footerText {
     display: none;
     position: fixed;
@@ -218,7 +156,6 @@ button {
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-/* МЕДІА ЗАПИТ ДЛЯ ПК */
 @media only screen and (min-width: 768px) {
     #catMain { width: 250px; }
     #cat4 { width: 180px; top: 10%; }
@@ -226,7 +163,6 @@ button {
     #loveMessage { font-size: 40px; margin-top: 30px; }
     #footerText { font-size: 30px; }
 }
-
 </style>
 </head>
 
@@ -272,31 +208,26 @@ let finalContainer = document.getElementById("finalContainer");
 let loveMessage = document.getElementById("loveMessage");
 let footerText = document.getElementById("footerText");
 let scale = 1;
+let currentZ = 10;
 
 noBtn.addEventListener("click", function() {
-    scale *= 1.3;
+    scale *= 1.4; // Збільшуємо швидше
+    currentZ += 1; // Кожного разу робимо шар кнопки "Так" вищим
     yesBtn.style.transform = "scale(" + scale + ")";
+    yesBtn.style.zIndex = currentZ;
 });
 
 yesBtn.addEventListener("click", function() {
-    // Ховаємо стартові елементи
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     minion.style.display = "none";
-
-    // ВМИКАЄМО ПУЛЬСАЦІЮ ФОНУ (додаємо клас)
     document.body.classList.add("love-mode");
-
-    // Показуємо контент
     loveMessage.style.display = "block";
     finalContainer.style.display = "block";
     footerText.style.display = "block";
-
-    // Салют
     launchConfetti();
 });
 
-// Кліки на тексти
 loveMessage.addEventListener("click", launchConfetti);
 footerText.addEventListener("click", launchConfetti);
 
@@ -305,20 +236,17 @@ function launchConfetti() {
         let confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
-        confetti.style.backgroundColor =
-            "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+        confetti.style.backgroundColor = "hsl(" + Math.random() * 360 + ", 100%, 50%)";
         confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
         document.body.appendChild(confetti);
-
-        setTimeout(() => {
-            confetti.remove();
-        }, 3000);
+        setTimeout(() => { confetti.remove(); }, 3000);
     }
 }
 </script>
 
 </body>
 </html>
+
 
 
 
