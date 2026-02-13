@@ -9,13 +9,25 @@
 body {
     text-align: center;
     font-family: 'Arial', sans-serif;
-    background-color: #ffb6d9;
+    background-color: #ffb6d9; /* Початковий колір (рожевий) */
     margin: 0;
     padding-top: 20px;
-    overflow: hidden; /* Забороняємо прокрутку взагалі для фіналу */
-    transition: background-color 1s;
-    height: 100vh; /* На весь екран */
+    overflow: hidden; 
+    transition: background-color 1s; /* Для плавного переходу */
+    height: 100vh;
     width: 100vw;
+}
+
+/* --- АНІМАЦІЯ ФОНУ (Пульсація) --- */
+@keyframes pulseLove {
+    0% { background-color: white; }
+    50% { background-color: #ffcce6; } /* Ніжно-рожевий/червонуватий */
+    100% { background-color: white; }
+}
+
+/* Цей клас ми додамо через JS після натискання "Так" */
+.love-mode {
+    animation: pulseLove 4s ease-in-out infinite; /* 4 секунди на один "удар" */
 }
 
 /* Кнопки */
@@ -29,7 +41,7 @@ button {
     transition: transform 0.2s;
     position: relative;
     z-index: 100;
-    -webkit-tap-highlight-color: transparent; /* Прибирає синій квадрат при натисканні на мобілках */
+    -webkit-tap-highlight-color: transparent;
 }
 
 #yesBtn { background-color: #ff4d6d; color: white; }
@@ -41,19 +53,18 @@ button {
     max-width: 80%;
 }
 
-/* Стиль для текстів з сердечками (щоб було видно, що можна клікати) */
 .heart-trigger {
     cursor: pointer;
     user-select: none;
     transition: transform 0.1s;
 }
 .heart-trigger:active {
-    transform: scale(0.9); /* Ефект натискання */
+    transform: scale(0.9);
 }
 
 #loveMessage {
     display: none;
-    font-size: 28px; /* Трохи менше для мобілок */
+    font-size: 28px;
     color: #d1005c;
     margin-top: 10px;
     position: relative;
@@ -81,30 +92,27 @@ button {
     object-fit: contain;
     z-index: 10;
     filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
-    pointer-events: none; /* Щоб кліки проходили крізь картинки (якщо треба клікати на фон) */
+    pointer-events: none;
 }
 
-/* --- РОЗТАШУВАННЯ (Адаптоване під мобільний) --- */
+/* --- РОЗТАШУВАННЯ --- */
 
-/* cat4 (Гіфка зверху) - ПІДНЯВ ВИЩЕ */
 #cat4 {
     left: 50%;
-    top: 12%; /* Було нижче, підняв */
+    top: 12%;
     transform: translateX(-50%);
-    width: 130px; /* Трохи менше для телефону */
+    width: 130px;
     animation: floatAndSpin 4s ease-in-out infinite;
 }
 
-/* catMain (Центральний) - ОПУСТИВ НИЖЧЕ */
 #catMain {
     left: 50%;
-    top: 55%; /* Було 40%, опустив щоб не налізав на верхнього */
+    top: 55%;
     width: 180px;
     transform: translate(-50%, -50%);
     animation: spin360 5s linear infinite;
 }
 
-/* flower1 (Зліва) */
 #flower1 {
     left: 5%;
     top: 45%;
@@ -112,7 +120,6 @@ button {
     animation: flipY 4s ease-in-out infinite;
 }
 
-/* flower2 (Справа) */
 #flower2 {
     right: 5%;
     top: 30%;
@@ -120,7 +127,6 @@ button {
     animation: flipX 4s ease-in-out infinite;
 }
 
-/* cat2 (Знизу зліва) */
 #cat2 {
     left: 5%;
     bottom: 12%;
@@ -128,7 +134,6 @@ button {
     animation: flipDiagonal 5s ease-in-out infinite;
 }
 
-/* cat3 (Знизу справа) */
 #cat3 {
     right: 5%;
     bottom: 12%;
@@ -185,7 +190,7 @@ button {
     width: 10px;
     height: 10px;
     top: 0;
-    z-index: 200; /* Поверх усього */
+    z-index: 200;
     animation: fall 3s linear forwards;
     pointer-events: none;
 }
@@ -213,7 +218,7 @@ button {
     font-family: 'Comic Sans MS', cursive, sans-serif;
 }
 
-/* МЕДІА ЗАПИТ ДЛЯ ВЕЛИКИХ ЕКРАНІВ (якщо відкриють на ПК) */
+/* МЕДІА ЗАПИТ ДЛЯ ПК */
 @media only screen and (min-width: 768px) {
     #catMain { width: 250px; }
     #cat4 { width: 180px; top: 10%; }
@@ -274,32 +279,29 @@ noBtn.addEventListener("click", function() {
 });
 
 yesBtn.addEventListener("click", function() {
-    // Міняємо фон і ховаємо зайве
-    document.body.style.backgroundColor = "white";
+    // Ховаємо стартові елементи
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     minion.style.display = "none";
 
-    // Показуємо красу
+    // ВМИКАЄМО ПУЛЬСАЦІЮ ФОНУ (додаємо клас)
+    document.body.classList.add("love-mode");
+
+    // Показуємо контент
     loveMessage.style.display = "block";
     finalContainer.style.display = "block";
     footerText.style.display = "block";
 
-    // Запускаємо салют
+    // Салют
     launchConfetti();
 });
 
-// Додаємо подію кліку на тексти для виклику конфетті
-loveMessage.addEventListener("click", function() {
-    launchConfetti();
-});
-
-footerText.addEventListener("click", function() {
-    launchConfetti();
-});
+// Кліки на тексти
+loveMessage.addEventListener("click", launchConfetti);
+footerText.addEventListener("click", launchConfetti);
 
 function launchConfetti() {
-    for (let i = 0; i < 100; i++) { // Трохи зменшив кількість за раз, щоб не лагав телефон
+    for (let i = 0; i < 100; i++) { 
         let confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
@@ -317,6 +319,7 @@ function launchConfetti() {
 
 </body>
 </html>
+
 
 
 
