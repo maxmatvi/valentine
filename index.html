@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Моя Валентинка 💖</title>
+
+<style>
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    margin-top: 50px;
+}
+
+h1 {
+    font-size: 32px;
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    margin: 15px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+}
+
+#yesBtn {
+    background-color: #ff4d6d;
+    color: white;
+}
+
+#noBtn {
+    background-color: gray;
+    color: white;
+}
+
+#loveMessage {
+    display: none;
+    font-size: 30px;
+    color: #d1005c;
+    margin-top: 30px;
+}
+
+img {
+    display: none;
+    margin-top: 20px;
+    width: 250px;
+}
+</style>
+</head>
+
+<body>
+
+<h1 id="question">Чи хочеш ти бути моєю Валентинкою? 💖</h1>
+
+<div id="buttons">
+    <button id="yesBtn">Так</button>
+    <button id="noBtn">Ні</button>
+</div>
+
+<div id="loveMessage">
+    Я тебе дуже сильно люблю! ❤️<br>Ураааа!!!
+</div>
+
+<img id="cat" src="cat.gif" alt="Котик">
+<img id="minion" src="minion.jpg" alt="Міньйон">
+
+<script>
+let yesBtn = document.getElementById("yesBtn");
+let noBtn = document.getElementById("noBtn");
+let scale = 1;
+
+noBtn.addEventListener("click", function() {
+    scale *= 2;
+    yesBtn.style.transform = "scale(" + scale + ")";
+});
+
+yesBtn.addEventListener("click", function() {
+    document.getElementById("question").style.display = "none";
+    document.getElementById("buttons").style.display = "none";
+    document.getElementById("loveMessage").style.display = "block";
+    document.getElementById("cat").style.display = "block";
+    document.getElementById("minion").style.display = "block";
+});
+</script>
+
+</body>
+</html>
