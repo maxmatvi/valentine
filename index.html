@@ -10,11 +10,11 @@ body {
     text-align: center;
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #ff9a9e, #fad0c4);
-    margin-top: 50px;
+    margin-top: 40px;
 }
 
 h1 {
-    font-size: 32px;
+    font-size: 28px;
 }
 
 button {
@@ -40,11 +40,16 @@ button {
     display: none;
     font-size: 30px;
     color: #d1005c;
-    margin-top: 30px;
+    margin-top: 20px;
 }
 
-img {
+#cat {
     display: none;
+    margin-top: 20px;
+    width: 250px;
+}
+
+#minion {
     margin-top: 20px;
     width: 250px;
 }
@@ -54,6 +59,8 @@ img {
 <body>
 
 <h1 id="question">Чи хочеш ти бути моєю Валентинкою? 💖</h1>
+
+<img id="minion" src="minion.jpg" alt="Міньйон">
 
 <div id="buttons">
     <button id="yesBtn">Так</button>
@@ -65,11 +72,12 @@ img {
 </div>
 
 <img id="cat" src="cat.gif" alt="Котик">
-<img id="minion" src="minion.jpg" alt="Міньйон">
 
 <script>
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
+let minion = document.getElementById("minion");
+let cat = document.getElementById("cat");
 let scale = 1;
 
 noBtn.addEventListener("click", function() {
@@ -81,8 +89,9 @@ yesBtn.addEventListener("click", function() {
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     document.getElementById("loveMessage").style.display = "block";
-    document.getElementById("cat").style.display = "block";
-    document.getElementById("minion").style.display = "block";
+
+    minion.style.display = "none";   // ховаємо міньйона
+    cat.style.display = "block";     // показуємо котика
 });
 </script>
 
