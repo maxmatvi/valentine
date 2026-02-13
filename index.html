@@ -2,31 +2,34 @@
 <html lang="uk">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Моя Валентинка 💖</title>
 
 <style>
 body {
     text-align: center;
-    font-family: Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
     background-color: #ffb6d9;
     margin: 0;
-    padding-top: 40px;
-    overflow-x: hidden; /* Щоб не було горизонтальної прокрутки */
+    padding-top: 20px;
+    overflow: hidden; /* Забороняємо прокрутку взагалі для фіналу */
     transition: background-color 1s;
+    height: 100vh; /* На весь екран */
+    width: 100vw;
 }
 
 /* Кнопки */
 button {
     font-size: 20px;
     padding: 10px 20px;
-    margin: 15px;
+    margin: 10px;
     border-radius: 10px;
     border: none;
     cursor: pointer;
-    transition: transform 0.3s;
+    transition: transform 0.2s;
     position: relative;
     z-index: 100;
+    -webkit-tap-highlight-color: transparent; /* Прибирає синій квадрат при натисканні на мобілках */
 }
 
 #yesBtn { background-color: #ff4d6d; color: white; }
@@ -34,146 +37,147 @@ button {
 
 #minion {
     width: 250px;
-    margin-top: 20px;
-    max-width: 90%;
+    margin-top: 10px;
+    max-width: 80%;
+}
+
+/* Стиль для текстів з сердечками (щоб було видно, що можна клікати) */
+.heart-trigger {
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.1s;
+}
+.heart-trigger:active {
+    transform: scale(0.9); /* Ефект натискання */
 }
 
 #loveMessage {
     display: none;
-    font-size: 34px;
+    font-size: 28px; /* Трохи менше для мобілок */
     color: #d1005c;
-    margin-top: 20px;
+    margin-top: 10px;
     position: relative;
     z-index: 50;
     font-weight: bold;
     text-shadow: 2px 2px 4px white;
+    width: 100%;
 }
 
 /* Фінальний контейнер з 3D перспективою */
 #finalContainer {
     display: none;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    height: 80vh; /* Висота контейнера */
-    perspective: 1000px; /* Це робить магію 3D (глибину) */
-    overflow: hidden; /* Щоб феєрверки не розтягували сторінку */
+    height: 100%;
+    perspective: 800px; 
+    z-index: 5;
 }
 
 /* --- СТИЛІ ДЛЯ ВСІХ КОТІВ --- */
 .cat-img {
     position: absolute;
-    width: 150px; /* Базовий розмір */
     object-fit: contain;
     z-index: 10;
-    /* Тінь для кращої видимості */
-    filter: drop-shadow(0 0 10px rgba(255,255,255,0.8));
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.8));
+    pointer-events: none; /* Щоб кліки проходили крізь картинки (якщо треба клікати на фон) */
 }
 
-/* Розташування та анімації котів */
+/* --- РОЗТАШУВАННЯ (Адаптоване під мобільний) --- */
 
-/* Основний кіт (Центр) */
+/* cat4 (Гіфка зверху) - ПІДНЯВ ВИЩЕ */
+#cat4 {
+    left: 50%;
+    top: 12%; /* Було нижче, підняв */
+    transform: translateX(-50%);
+    width: 130px; /* Трохи менше для телефону */
+    animation: floatAndSpin 4s ease-in-out infinite;
+}
+
+/* catMain (Центральний) - ОПУСТИВ НИЖЧЕ */
 #catMain {
     left: 50%;
-    top: 40%;
-    width: 220px;
+    top: 55%; /* Було 40%, опустив щоб не налізав на верхнього */
+    width: 180px;
     transform: translate(-50%, -50%);
     animation: spin360 5s linear infinite;
 }
 
-/* Квітка 1 (Зліва посередині) - Сальто по Y */
+/* flower1 (Зліва) */
 #flower1 {
-    left: 10%;
-    top: 40%;
+    left: 5%;
+    top: 45%;
+    width: 100px;
     animation: flipY 4s ease-in-out infinite;
 }
 
-/* Квітка 2 (Справа посередині) - Сальто по X */
+/* flower2 (Справа) */
 #flower2 {
-    right: 10%;
-    top: 20%;
+    right: 5%;
+    top: 30%;
+    width: 90px;
     animation: flipX 4s ease-in-out infinite;
 }
 
-/* НОВИЙ КІТ 2 (Знизу зліва) - Сальто по діагоналі (комбінація) */
+/* cat2 (Знизу зліва) */
 #cat2 {
-    left: 15%;
-    bottom: 10%;
-    width: 140px;
+    left: 5%;
+    bottom: 12%;
+    width: 100px;
     animation: flipDiagonal 5s ease-in-out infinite;
 }
 
-/* НОВИЙ КІТ 3 (Знизу справа) - Обертання */
+/* cat3 (Знизу справа) */
 #cat3 {
-    right: 15%;
-    bottom: 15%;
-    width: 140px;
-    animation: flipY 6s ease-in-out infinite reverse; /* У зворотній бік */
+    right: 5%;
+    bottom: 12%;
+    width: 100px;
+    animation: flipY 6s ease-in-out infinite reverse;
 }
 
-/* НОВИЙ КІТ 4 (Гіфка, зверху по центру) */
-#cat4 {
-    left: 50%;
-    top: 10%;
-    transform: translateX(-50%);
-    width: 160px;
-    animation: floatAndSpin 4s ease-in-out infinite;
-}
-
-
-/* --- АНІМАЦІЇ (КЛЮЧОВІ КАДРИ) --- */
-
-/* Крутиться як дзиґа */
+/* --- АНІМАЦІЇ --- */
 @keyframes spin360 {
     from { transform: translate(-50%, -50%) rotate(0deg); }
     to { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* 3D сальто горизонтальне */
 @keyframes flipY {
     0% { transform: rotateY(0deg); }
     100% { transform: rotateY(360deg); }
 }
 
-/* 3D сальто вертикальне */
 @keyframes flipX {
     0% { transform: rotateX(0deg); }
     100% { transform: rotateX(360deg); }
 }
 
-/* Діагональне сальто */
 @keyframes flipDiagonal {
     0% { transform: rotate3d(1, 1, 0, 0deg); }
     100% { transform: rotate3d(1, 1, 0, 360deg); }
 }
 
-/* Плавання + легкий поворот (для cat4) */
 @keyframes floatAndSpin {
     0% { transform: translateX(-50%) translateY(0) rotateY(0deg); }
-    50% { transform: translateX(-50%) translateY(-20px) rotateY(180deg); }
+    50% { transform: translateX(-50%) translateY(-15px) rotateY(180deg); }
     100% { transform: translateX(-50%) translateY(0) rotateY(360deg); }
 }
 
-
 /* --- ФЕЄРВЕРКИ --- */
-
 .firework {
     position: absolute;
-    width: 180px;
+    width: 150px;
     pointer-events: none;
-    z-index: 1; /* На задньому плані */
-    opacity: 0.7;
+    z-index: 1;
+    opacity: 0.6;
 }
 
-/* Розташування феєрверків */
-#fw1 { top: 5%; left: 5%; }
-#fw2 { top: 5%; right: 5%; }
-#fw3 { bottom: 10%; left: 50%; transform: translateX(-50%); }
-
-/* Нові феєрверки */
-#fw4 { bottom: 5%; left: 5%; width: 150px; }
-#fw5 { bottom: 5%; right: 5%; width: 150px; }
-#fw6 { top: 15%; left: 50%; transform: translateX(-50%); width: 250px; opacity: 0.5; }
-
+#fw1 { top: 0; left: 0; }
+#fw2 { top: 0; right: 0; }
+#fw3 { bottom: 20%; left: 50%; transform: translateX(-50%); }
+#fw4 { bottom: 0; left: 0; width: 120px; }
+#fw5 { bottom: 0; right: 0; width: 120px; }
+#fw6 { top: 20%; left: 50%; transform: translateX(-50%); width: 200px; opacity: 0.4; }
 
 /* --- КОНФЕТІ --- */
 .confetti {
@@ -181,8 +185,9 @@ button {
     width: 10px;
     height: 10px;
     top: 0;
-    z-index: 100;
+    z-index: 200; /* Поверх усього */
     animation: fall 3s linear forwards;
+    pointer-events: none;
 }
 
 @keyframes fall {
@@ -192,20 +197,29 @@ button {
     }
 }
 
-/* --- ПІДПИС ВІД ПУПСА --- */
+/* --- ПІДПИС --- */
 #footerText {
-    display: none; /* Спочатку приховано */
+    display: none;
     position: fixed;
     bottom: 20px;
     left: 0;
     width: 100%;
     text-align: center;
-    font-size: 24px;
+    font-size: 22px;
     color: #ff4d6d;
     font-weight: bold;
     z-index: 60;
     text-shadow: 1px 1px 2px white;
-    font-family: 'Comic Sans MS', cursive, sans-serif; /* Трохи милий шрифт */
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+}
+
+/* МЕДІА ЗАПИТ ДЛЯ ВЕЛИКИХ ЕКРАНІВ (якщо відкриють на ПК) */
+@media only screen and (min-width: 768px) {
+    #catMain { width: 250px; }
+    #cat4 { width: 180px; top: 10%; }
+    .cat-img { width: 160px; }
+    #loveMessage { font-size: 40px; margin-top: 30px; }
+    #footerText { font-size: 30px; }
 }
 
 </style>
@@ -222,16 +236,15 @@ button {
     <button id="noBtn">Ні</button>
 </div>
 
-<div id="loveMessage">
-    Урааа!!! 🎉<br>Я тебе дуже сильно люблю ❤️
+<div id="loveMessage" class="heart-trigger">
+    Урааа!!! 🎉<br>Я тебе дуже сильно люблю ❤️<br>
+    <span style="font-size: 16px; color: #ff85a2;">(натисни на мене)</span>
 </div>
 
 <div id="finalContainer">
-
     <img id="catMain" class="cat-img" src="cat.gif">
     <img id="flower1" class="cat-img" src="flowercat.jpg">
     <img id="flower2" class="cat-img" src="flowercat2.jpg">
-
     <img id="cat2" class="cat-img" src="cat2.jpg">
     <img id="cat3" class="cat-img" src="cat3.jpg">
     <img id="cat4" class="cat-img" src="cat4.gif">
@@ -239,20 +252,19 @@ button {
     <img id="fw1" class="firework" src="firework1.gif">
     <img id="fw2" class="firework" src="firework2.gif">
     <img id="fw3" class="firework" src="firework3.gif">
-
     <img id="fw4" class="firework" src="firework4.gif">
     <img id="fw5" class="firework" src="firework5.gif">
     <img id="fw6" class="firework" src="firework6.gif">
-
 </div>
 
-<div id="footerText">Від твого пупса ❤️</div>
+<div id="footerText" class="heart-trigger">Від твого пупса ❤️</div>
 
 <script>
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 let minion = document.getElementById("minion");
 let finalContainer = document.getElementById("finalContainer");
+let loveMessage = document.getElementById("loveMessage");
 let footerText = document.getElementById("footerText");
 let scale = 1;
 
@@ -262,25 +274,32 @@ noBtn.addEventListener("click", function() {
 });
 
 yesBtn.addEventListener("click", function() {
-
-    // міняємо фон
+    // Міняємо фон і ховаємо зайве
     document.body.style.backgroundColor = "white";
-
-    // ховаємо старт
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     minion.style.display = "none";
 
-    // показуємо фінал
-    document.getElementById("loveMessage").style.display = "block";
+    // Показуємо красу
+    loveMessage.style.display = "block";
     finalContainer.style.display = "block";
-    footerText.style.display = "block"; // Показуємо напис про пупса
+    footerText.style.display = "block";
 
+    // Запускаємо салют
+    launchConfetti();
+});
+
+// Додаємо подію кліку на тексти для виклику конфетті
+loveMessage.addEventListener("click", function() {
+    launchConfetti();
+});
+
+footerText.addEventListener("click", function() {
     launchConfetti();
 });
 
 function launchConfetti() {
-    for (let i = 0; i < 150; i++) {
+    for (let i = 0; i < 100; i++) { // Трохи зменшив кількість за раз, щоб не лагав телефон
         let confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
