@@ -9,10 +9,10 @@
 body {
     text-align: center;
     font-family: Arial, sans-serif;
-    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    background-color: #ffb6d9;
     margin-top: 40px;
     overflow-x: hidden;
-    position: relative;
+    transition: background-color 1s;
 }
 
 h1 {
@@ -39,6 +39,11 @@ button {
     color: white;
 }
 
+#minion {
+    width: 250px;
+    margin-top: 20px;
+}
+
 #loveMessage {
     display: none;
     font-size: 32px;
@@ -46,43 +51,46 @@ button {
     margin-top: 20px;
 }
 
-/* Міньйон на старті */
-#minion {
-    margin-top: 20px;
-    width: 250px;
-}
-
-/* Контейнер для котиків */
-#catsContainer {
+/* Контейнер фіналу */
+#finalContainer {
     display: none;
     position: relative;
-    height: 70vh;
+    height: 80vh;
 }
 
-/* Головний котик */
+/* Котики */
 #catMain {
     position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    left: 40%;
+    top: 20%;
     width: 220px;
 }
 
-/* Додаткові котики */
 #flower1 {
     position: absolute;
     left: 10%;
-    top: 30%;
+    top: 40%;
     width: 180px;
     transform: rotate(-15deg);
 }
 
 #flower2 {
     position: absolute;
-    right: 8%;
+    right: 10%;
     top: 10%;
-    width: 140px;
+    width: 160px;
     transform: rotate(20deg);
 }
+
+/* Феєрверки */
+.firework {
+    position: absolute;
+    width: 150px;
+}
+
+#fw1 { top: 5%; left: 5%; }
+#fw2 { top: 5%; right: 5%; }
+#fw3 { bottom: 5%; left: 50%; transform: translateX(-50%); }
 
 /* Конфеті */
 .confetti {
@@ -117,17 +125,25 @@ button {
     Урааа!!! 🎉<br>Я тебе дуже сильно люблю ❤️
 </div>
 
-<div id="catsContainer">
-    <img id="catMain" src="cat.gif" alt="Котик">
-    <img id="flower1" src="flowercat.jpg" alt="Котик з квітами">
-    <img id="flower2" src="flowercat2.jpg" alt="Котик 2">
+<div id="finalContainer">
+
+    <!-- Котики -->
+    <img id="catMain" src="cat.gif">
+    <img id="flower1" src="flowercat.jpg">
+    <img id="flower2" src="flowercat2.jpg">
+
+    <!-- Феєрверки -->
+    <img id="fw1" class="firework" src="firework1.jpg">
+    <img id="fw2" class="firework" src="firework2.jpg">
+    <img id="fw3" class="firework" src="firework3.jpg">
+
 </div>
 
 <script>
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 let minion = document.getElementById("minion");
-let catsContainer = document.getElementById("catsContainer");
+let finalContainer = document.getElementById("finalContainer");
 let scale = 1;
 
 noBtn.addEventListener("click", function() {
@@ -137,20 +153,20 @@ noBtn.addEventListener("click", function() {
 
 yesBtn.addEventListener("click", function() {
 
-    // Ховаємо старт
+    document.body.style.backgroundColor = "white";
+
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
     minion.style.display = "none";
 
-    // Показуємо фінал
     document.getElementById("loveMessage").style.display = "block";
-    catsContainer.style.display = "block";
+    finalContainer.style.display = "block";
 
     launchConfetti();
 });
 
 function launchConfetti() {
-    for (let i = 0; i < 120; i++) {
+    for (let i = 0; i < 150; i++) {
         let confetti = document.createElement("div");
         confetti.classList.add("confetti");
         confetti.style.left = Math.random() * window.innerWidth + "px";
@@ -168,4 +184,5 @@ function launchConfetti() {
 
 </body>
 </html>
+
 
