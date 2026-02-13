@@ -11,6 +11,8 @@ body {
     font-family: Arial, sans-serif;
     background: linear-gradient(to right, #ff9a9e, #fad0c4);
     margin-top: 40px;
+    overflow-x: hidden;
+    position: relative;
 }
 
 h1 {
@@ -24,6 +26,7 @@ button {
     border-radius: 10px;
     border: none;
     cursor: pointer;
+    transition: transform 0.3s;
 }
 
 #yesBtn {
@@ -38,27 +41,70 @@ button {
 
 #loveMessage {
     display: none;
-    font-size: 30px;
+    font-size: 32px;
     color: #d1005c;
     margin-top: 20px;
 }
 
-#cat {
-    display: none;
+/* Міньйон на старті */
+#minion {
     margin-top: 20px;
     width: 250px;
 }
 
-#minion {
-    margin-top: 20px;
-    width: 250px;
+/* Контейнер для котиків */
+#catsContainer {
+    display: none;
+    position: relative;
+    height: 70vh;
+}
+
+/* Головний котик */
+#catMain {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 220px;
+}
+
+/* Додаткові котики */
+#flower1 {
+    position: absolute;
+    left: 10%;
+    top: 30%;
+    width: 180px;
+    transform: rotate(-15deg);
+}
+
+#flower2 {
+    position: absolute;
+    right: 8%;
+    top: 10%;
+    width: 140px;
+    transform: rotate(20deg);
+}
+
+/* Конфеті */
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    top: 0;
+    animation: fall 3s linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<h1 id="question">Чи хочеш ти бути моєю Валентинкою? 💖</h1>
+<h1 id="question">Чи будеш ти моєю Валентинкою? 💖</h1>
 
 <img id="minion" src="minion.jpg" alt="Міньйон">
 
@@ -68,16 +114,20 @@ button {
 </div>
 
 <div id="loveMessage">
-    Я тебе дуже сильно люблю! ❤️<br>Ураааа!!!
+    Урааа!!! 🎉<br>Я тебе дуже сильно люблю ❤️
 </div>
 
-<img id="cat" src="cat.gif" alt="Котик">
+<div id="catsContainer">
+    <img id="catMain" src="cat.gif" alt="Котик">
+    <img id="flower1" src="flowercat.jpg" alt="Котик з квітами">
+    <img id="flower2" src="flowercat2.jpg" alt="Котик 2">
+</div>
 
 <script>
 let yesBtn = document.getElementById("yesBtn");
 let noBtn = document.getElementById("noBtn");
 let minion = document.getElementById("minion");
-let cat = document.getElementById("cat");
+let catsContainer = document.getElementById("catsContainer");
 let scale = 1;
 
 noBtn.addEventListener("click", function() {
@@ -86,14 +136,36 @@ noBtn.addEventListener("click", function() {
 });
 
 yesBtn.addEventListener("click", function() {
+
+    // Ховаємо старт
     document.getElementById("question").style.display = "none";
     document.getElementById("buttons").style.display = "none";
-    document.getElementById("loveMessage").style.display = "block";
+    minion.style.display = "none";
 
-    minion.style.display = "none";   // ховаємо міньйона
-    cat.style.display = "block";     // показуємо котика
+    // Показуємо фінал
+    document.getElementById("loveMessage").style.display = "block";
+    catsContainer.style.display = "block";
+
+    launchConfetti();
 });
+
+function launchConfetti() {
+    for (let i = 0; i < 120; i++) {
+        let confetti = document.createElement("div");
+        confetti.classList.add("confetti");
+        confetti.style.left = Math.random() * window.innerWidth + "px";
+        confetti.style.backgroundColor =
+            "hsl(" + Math.random() * 360 + ", 100%, 50%)";
+        confetti.style.animationDuration = (Math.random() * 2 + 2) + "s";
+        document.body.appendChild(confetti);
+
+        setTimeout(() => {
+            confetti.remove();
+        }, 3000);
+    }
+}
 </script>
 
 </body>
 </html>
+
