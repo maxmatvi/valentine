@@ -29,44 +29,50 @@ body {
     animation: pulseLove 4s ease-in-out infinite;
 }
 
-/* Кнопки */
-#buttons {
-    position: relative;
-    margin-top: 20px;
-    height: 100px; /* Резервуємо місце для кнопок */
-}
-
-button {
-    font-size: 20px;
-    padding: 10px 20px;
-    margin: 10px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s, z-index 0.1s;
-    -webkit-tap-highlight-color: transparent;
-}
-
-#yesBtn { 
-    background-color: #ff4d6d; 
-    color: white; 
-    position: relative;
-    z-index: 10; /* Початковий шар */
-}
-
-#noBtn { 
-    background-color: gray; 
-    color: white; 
-    position: relative;
-    z-index: 5; /* Завжди нижче кнопки "Так" при збільшенні */
-}
-
 #minion {
     width: 250px;
     margin-top: 10px;
     max-width: 80%;
 }
 
+/* --- КОНТЕЙНЕР ДЛЯ КНОПОК (ВАЖЛИВО!) --- */
+#buttons {
+    position: relative; /* Щоб кнопки всередині позиціонувалися відносно цього блоку */
+    width: 320px; /* Фіксована ширина, щоб кнопки не розбігалися */
+    height: 80px;
+    margin: 20px auto; /* Центруємо сам блок */
+    max-width: 90%;
+}
+
+button {
+    font-size: 20px;
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s; /* Тільки трансформація, без z-index */
+    -webkit-tap-highlight-color: transparent;
+    position: absolute; /* Кнопки тепер накладені "шарами", а не в ряд */
+    top: 10px;
+}
+
+/* Кнопка ТАК - Головна, завжди зверху */
+#yesBtn { 
+    background-color: #ff4d6d; 
+    color: white; 
+    left: 40px; /* Зсув вліво */
+    z-index: 100; /* ЗАВЖДИ ЗВЕРХУ */
+}
+
+/* Кнопка НІ - На задньому плані */
+#noBtn { 
+    background-color: gray; 
+    color: white; 
+    right: 40px; /* Зсув вправо */
+    z-index: 0; /* ЗАВЖДИ НИЖЧЕ */
+}
+
+/* Тексти */
 .heart-trigger {
     cursor: pointer;
     user-select: none;
@@ -162,6 +168,10 @@ button {
     .cat-img { width: 160px; }
     #loveMessage { font-size: 40px; margin-top: 30px; }
     #footerText { font-size: 30px; }
+    /* Центрування кнопок на великому екрані */
+    #buttons { width: 400px; }
+    #yesBtn { left: 80px; }
+    #noBtn { right: 80px; }
 }
 </style>
 </head>
@@ -208,13 +218,11 @@ let finalContainer = document.getElementById("finalContainer");
 let loveMessage = document.getElementById("loveMessage");
 let footerText = document.getElementById("footerText");
 let scale = 1;
-let currentZ = 10;
 
 noBtn.addEventListener("click", function() {
-    scale *= 1.4; // Збільшуємо швидше
-    currentZ += 1; // Кожного разу робимо шар кнопки "Так" вищим
+    scale *= 1.4; 
     yesBtn.style.transform = "scale(" + scale + ")";
-    yesBtn.style.zIndex = currentZ;
+    // Ми не чіпаємо Z-index в JS, бо він вже налаштований у CSS намертво
 });
 
 yesBtn.addEventListener("click", function() {
@@ -246,6 +254,7 @@ function launchConfetti() {
 
 </body>
 </html>
+
 
 
 
